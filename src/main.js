@@ -26,7 +26,7 @@ let mainWindow;
 function createWindow() {
   mainWindow = new BrowserWindow({
     titleBarStyle: 'default',
-    icon: __dirname + '/icon.png',
+    icon: __dirname + '/Trimps.png',
     minWidth: 300,
     minHeight: 200,
     webPreferences: {
@@ -35,17 +35,12 @@ function createWindow() {
     },
   });
 
-  mainWindow.webContents.on('did-finish-load', () => {
-    mainWindow.webContents.executeJavaScript(
-      fs.readFileSync(`${__dirname}/discord.js`).toString()
-    ).catch(e=>{});
-  });
 
   mainWindow.setMenuBarVisibility(false);
   mainWindow.setTitle('Trimps');
 
   // Check if we've already downloaded the data, otherwise load our loading screen
-  if (fs.existsSync(`${dataDir}/pokeclicker-master/docs/index.html`)) {
+  if (fs.existsSync(`${dataDir}/Trimps-master/docs/index.html`)) {
     mainWindow.loadURL(`file://${dataDir}/Trimps-master/docs/index.html`);
   } else {
     mainWindow.loadURL(`file://${__dirname}/Trimps-master/docs/index.html`);
@@ -65,7 +60,7 @@ function createWindow() {
 function createSecondaryWindow() {
   let newWindow = new BrowserWindow({
     titleBarStyle: 'default',
-    icon: __dirname + '/icon.png',
+    icon: __dirname + '/Trimps.png',
     minWidth: 300,
     minHeight: 200,
     webPreferences: {
@@ -160,7 +155,7 @@ app.on('activate', () => {
         const userResponse = dialog.showMessageBoxSync(mainWindow, {
           title: 'Trimp - Update success!',
           message: `Successfully updated,\nwould you like to reload the page now?`,
-          icon: `${__dirname}/icon.png`,
+          icon: `${__dirname}/Trimps.png`,
           buttons: ['Yes', 'No'],
           noLink: true,
         });
@@ -182,7 +177,7 @@ app.on('activate', () => {
       type: 'error',
       title: 'Trimps - Update failed!',
       message: `Failed to download or extract the update,\nWould you like to retry?`,
-      icon: `${__dirname}/icon.png`,
+      icon: `${__dirname}/Trimps.png`,
       buttons: ['Yes', 'No'],
       noLink: true,
     });
@@ -226,7 +221,7 @@ app.on('activate', () => {
     const userResponse = dialog.showMessageBoxSync(mainWindow, {
       title: 'Trimps - Update available!',
       message: `There is a new update available (v${newVersion}),\nWould you like to download it now?\n\n`,
-      icon: `${__dirname}/icon.png`,
+      icon: `${__dirname}/Trimps.png`,
       buttons: ['Update Now', 'Remind Me', 'No (disable check)'],
       noLink: true,
     });
@@ -242,8 +237,8 @@ app.on('activate', () => {
       case 2:
         console.info('Update check disabled, stop checking for updates');
         break;
-    }
-  }
+   }
+  
 
   const startUpdateCheckInterval = (run_now = false) => {
     // Check for updates every hour
@@ -270,7 +265,7 @@ app.on('activate', () => {
       const userResponse = dialog.showMessageBoxSync(mainWindow, {
         title: 'Trimps - Client Update Available!',
         message: `There is a new client update available,\nWould you like to install it now?\n\n`,
-        icon: `${__dirname}/icon.png`,
+        icon: `${__dirname}/Trimps.png`,
         buttons: ['Restart App Now', 'Later'],
         noLink: true,
       });
