@@ -29,7 +29,8 @@
     "electron-builder": "^22.11.7"
   },
   "build": {
-    "productName": "Trimp",
+    "productName": "Trimps",
+    "icon": "/build/trimps.png",
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true

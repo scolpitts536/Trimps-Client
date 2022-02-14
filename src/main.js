@@ -26,7 +26,7 @@ let mainWindow;
 function createWindow() {
   mainWindow = new BrowserWindow({
     titleBarStyle: 'default',
-    icon: __dirname + '/Trimps.png',
+    "icon": "/build/trimps.png",
     minWidth: 300,
     minHeight: 200,
     webPreferences: {
@@ -40,10 +40,10 @@ function createWindow() {
   mainWindow.setTitle('Trimps');
 
   // Check if we've already downloaded the data, otherwise load our loading screen
-  if (fs.existsSync(`${dataDir}/Trimps-master/docs/index.html`)) {
-    mainWindow.loadURL(`file://${dataDir}/Trimps-master/docs/index.html`);
+  if (fs.existsSync(`https://trimps.github.io/`)) {
+    mainWindow.loadURL(`https://trimps.github.io/`);
   } else {
-    mainWindow.loadURL(`file://${__dirname}/Trimps-master/docs/index.html`);
+    mainWindow.loadURL(`https://trimps.github.io/`);
   }
 
   mainWindow.on('close', (event) => {
@@ -60,7 +60,7 @@ function createWindow() {
 function createSecondaryWindow() {
   let newWindow = new BrowserWindow({
     titleBarStyle: 'default',
-    icon: __dirname + '/Trimps.png',
+    "icon": "/build/trimps.png",
     minWidth: 300,
     minHeight: 200,
     webPreferences: {
@@ -73,10 +73,10 @@ function createSecondaryWindow() {
   newWindow.setTitle('Trimps');
 
   // Check if we've already downloaded the data, otherwise load our loading screen
-  if (fs.existsSync(`${dataDir}/Trimps-master/docs/index.html`)) {
-    newWindow.loadURL(`file://${dataDir}/Trimps-master/docs/index.html`);
+  if (fs.existsSync(`https://trimps.github.io/`)) {
+    newWindow.loadURL(`https://trimps.github.io/`);
   } else {
-    newWindow.loadURL(`file://${__dirname}/Trimps-master/docs/index.html`);
+    newWindow.loadURL(`https://trimps.github.io/`);
   }
 
   newWindow.on('close', (event) => {
@@ -114,7 +114,7 @@ app.on('activate', () => {
   const downloadUpdate = async (initial = false) => {
     const zipFilePath = `${dataDir}/update.zip`;
     const file = fs.createWriteStream(zipFilePath);
-    https.get('https://codeload.github.com/Trimps/Trimps.github.io/zip/master', async res => {
+    https.get('https://trimps.github.io/', async res => {
       let cur = 0;
       try {
         if (!initial) await mainWindow.webContents.executeJavaScript(`Notifier.notify({ title: '[UPDATER] v${newVersion}', message: 'Downloading Files...<br/>Please Wait...', timeout: 1e6 })`);
@@ -135,7 +135,7 @@ app.on('activate', () => {
 
         const zip = new Zip(zipFilePath);
 
-        const extracted = zip.extractEntryTo('Trimps-master/docs/', `${dataDir}`, true, true);
+        const extracted = zip.extractEntryTo('Trimp-master/docs/', `${dataDir}`, true, true);
 
         fs.unlinkSync(zipFilePath);
 
@@ -148,20 +148,20 @@ app.on('activate', () => {
 
         // If this is the initial download, don't ask the user about refreshing the page
         if (initial) {
-          mainWindow.loadURL(`file://${dataDir}/Trimps-master/docs/index.html`);
+          mainWindow.loadURL(`https://trimps.github.io/`);
           return;
         }
 
         const userResponse = dialog.showMessageBoxSync(mainWindow, {
           title: 'Trimp - Update success!',
           message: `Successfully updated,\nwould you like to reload the page now?`,
-          icon: `${__dirname}/Trimps.png`,
+          "icon": "/build/trimps.png",
           buttons: ['Yes', 'No'],
           noLink: true,
         });
 
         if (userResponse == 0){
-          mainWindow.loadURL(`file://${dataDir}/Trimps-master/docs/index.html`);
+          mainWindow.loadURL(`https://trimps.github.io/`);
         }
       });
     }).on('error', (e) => {
@@ -177,7 +177,7 @@ app.on('activate', () => {
       type: 'error',
       title: 'Trimps - Update failed!',
       message: `Failed to download or extract the update,\nWould you like to retry?`,
-      icon: `${__dirname}/Trimps.png`,
+      "icon": "/build/trimps.png",
       buttons: ['Yes', 'No'],
       noLink: true,
     });
@@ -188,7 +188,7 @@ app.on('activate', () => {
   }
 
   const checkForUpdates = () => {
-    const request = https.get('https://raw.githubusercontent.com/Trimps/Trimps.github.io/master/package.json', res => {
+    const request = https.get('https://trimps.github.io/', res => {
       let body = '';
 
       res.on('data', d => {
@@ -221,7 +221,7 @@ app.on('activate', () => {
     const userResponse = dialog.showMessageBoxSync(mainWindow, {
       title: 'Trimps - Update available!',
       message: `There is a new update available (v${newVersion}),\nWould you like to download it now?\n\n`,
-      icon: `${__dirname}/Trimps.png`,
+      "icon": "/build/trimps.png",
       buttons: ['Update Now', 'Remind Me', 'No (disable check)'],
       noLink: true,
     });
@@ -249,7 +249,7 @@ app.on('activate', () => {
 
   try {
     // If we can get our current version, start checking for updates once the game starts
-    currentVersion = JSON.parse(fs.readFileSync(`${dataDir}/Trimps-master/docs/package.json`).toString()).version;
+    currentVersion = JSON.parse(fs.readFileSync(`https://trimps.github.io/`).toString()).version;
     if (currentVersion == '0.0.0') throw Error('Must re-download updated version');
     setTimeout(() => {
       startUpdateCheckInterval(true);
@@ -265,7 +265,7 @@ app.on('activate', () => {
       const userResponse = dialog.showMessageBoxSync(mainWindow, {
         title: 'Trimps - Client Update Available!',
         message: `There is a new client update available,\nWould you like to install it now?\n\n`,
-        icon: `${__dirname}/Trimps.png`,
+        "icon": "/build/trimps.png",
         buttons: ['Restart App Now', 'Later'],
         noLink: true,
       });
